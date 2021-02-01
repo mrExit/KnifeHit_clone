@@ -15,25 +15,27 @@ public class GameController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        
-        if (!_isTarget&&collision.collider.CompareTag("Target"))
+
+        if (!_isTarget && collision.collider.CompareTag("Target"))
         {
             _isTarget = true;
             this.gameObject.transform.SetParent(collision.transform);
             gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
-            
-        }else if(collision.collider.CompareTag("Knife")&&!_isTarget)
+
+        } else if (collision.collider.CompareTag("Knife") && !_isTarget)
         {
-           
+
             gameObject.GetComponent<PolygonCollider2D>().enabled = false;
-            GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-10,10), -5));
+            GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-10, 10), -5));
             StartCoroutine(Rotation());
-            
-            
-           
         }
+     
         
       
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {       
+        Destroy(collision.gameObject);    
     }
     private IEnumerator Rotation()
     {
